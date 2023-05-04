@@ -39,7 +39,9 @@
         ],
 
     ];
-    $tittle = $hotels[1]
+    $tittle = $hotels[1];
+    $park = $_GET["parking"];
+    $votes = $_GET['vote']
 ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -51,29 +53,102 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     </head>
     <body>
-         <table class="table">
+    <div class="container my-5">
+
+        <h1>HOTELS</h1>
+        <form method="GET" action="index.php">
+            <div class="input-group mb-5">
+
+                <select name="parking" class="form-select rounded-3 text-center" aria-label="Default select example">
+                    <option >All</option>
+                    <option value="true">Parking</option>
+                    <option value="false">No Parking</option>
+
+                </select>
+                <select name="vote" class="form-select rounded-3 text-center" aria-label="Default select example">
+                    <option value="all">All</option>
+                    <option value="1">one</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                    <option value="4">Four</option>
+                    <option value="5">Five</option>
+                </select>
+                <button class="btn " type="submit">Envia</button>
+            </div>
+        </form>
+
+        <table class="table">
             <thead>
                 <tr>
-                    <?php foreach($tittle as $tittle => $value){?>
+                <?php foreach($tittle as $tittle => $value){?>
                             <th>
                                 <?php echo $tittle ?>
                             </th>
-                    <?php }?>            
+                    <?php }?>   
                 </tr>
             </thead>
-            <tbody>
-                <?php foreach($hotels as $array){?>
-                <tr>
-                    <?php foreach($array as $key => $value){?>
-                        <td>
-                                <?php if($value === true){echo 'si';}elseif($value === false){echo 'no';}else{echo $value;}?>
-                         </td>
-                    <?php }?>  
-                </tr>
-                <?php }?>  
-            </tbody>
+            <?php if ($park === "true") { ?>
+                <tbody>
+                    <?php foreach ($hotels as $hotel) { ?>
+                        <tr>
+
+                            <?php foreach ($hotel as $key => $item) {
+                                if ($hotel["parking"] === true) { if($hotel['vote'] == $votes || $votes == 'all' ){?>
+                                    <td>
+                                        <?php if ($item === true) {
+                                            echo "si";
+                                        } elseif ($item === false) {
+                                            echo "No";
+                                        } else echo $item ?>
+                                    </td>
+                            <?php }}
+                            } ?>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            <?php } elseif ($park === "false") { ?>
+                <tbody>
+                    <?php foreach ($hotels as $hotel) { ?>
+                        <tr>
+
+                            <?php foreach ($hotel as $key => $item) {
+                                if ($hotel["parking"] === false) { if($hotel['vote'] == $votes || $votes == 'all' ){
+                            ?>
+                                    <td>
+                                        <?php if ($item === true) {
+                                            echo "si";
+                                        } elseif ($item === false) {
+                                            echo "No";
+                                        } else echo $item ?>
+                                    </td>
+                            <?php }}
+                            } ?>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            <?php } else { ?>
+                <tbody>
+                    <?php foreach ($hotels as $hotel) { ?>
+                        <tr>
+
+                            <?php foreach ($hotel as $key => $item) { if($hotel['vote'] == $votes || $votes == 'all' || !isset($_GET["vote"])){
+                            ?>
+                                <td>
+                                    <?php if ($item === true) {
+                                        echo "si";
+                                    } elseif ($item === false) {
+                                        echo "No";
+                                    } else echo $item ?>
+                                </td>
+                            <?php }
+                            } ?>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            <?php } ?>
         </table>
-    </body>
+    </div>
+</body>
     </html>
    
 
